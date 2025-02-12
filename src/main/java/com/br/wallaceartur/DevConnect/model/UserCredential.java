@@ -1,12 +1,12 @@
 package com.br.wallaceartur.DevConnect.model;
 
-public class UserCredencials {
+public class UserCredential {
 
     private String username;
 
     private String password;
 
-    public UserCredencials(String username, String password) {
+    public UserCredential(String username, String password) {
         this.username = username;
         this.password = password;
     }

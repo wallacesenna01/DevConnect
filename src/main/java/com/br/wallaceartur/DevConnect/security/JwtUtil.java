@@ -7,7 +7,6 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
 import java.util.Date;
 
 @Component
@@ -25,6 +24,7 @@ public class JwtUtil {
                 .withIssuedAt(new Date()) // adiciona a data de emissao
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME_))
                 .sign(algorithm); // assina com o algoritmo
+
     }
 
     // Extrai o nome de usário ao token
