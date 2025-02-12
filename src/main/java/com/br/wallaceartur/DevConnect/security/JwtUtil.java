@@ -5,9 +5,11 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.br.wallaceartur.DevConnect.enums.UserRole;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Set;
 
 @Component
 public class JwtUtil {
@@ -16,15 +18,15 @@ public class JwtUtil {
     private static final long EXPIRATION_TIME_ = 86400000;
 
 
-    // Gera o token JWT
-    public String generedToken(String username) {
-        Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);// Usando HMAC-SHA256
-        return JWT.create()
-                .withSubject(username) // Adiciona o nome de usuário ao token
-                .withIssuedAt(new Date()) // adiciona a data de emissao
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME_))
-                .sign(algorithm); // assina com o algoritmo
+    public String generateToken(String username, Set<UserRole> roles ) {
 
+        Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
+        return JWT.create()
+                .withSubject(username)
+                .withClaim("roles",roles.stream().map(Enum::name).toList())
+                .withIssuedAt(new Date())
+                .withExpiresAt(new Date(System.currentTimeMillis()+86400000)) // 24 hrs
+                .sign(algorithm);
     }
 
     // Extrai o nome de usário ao token

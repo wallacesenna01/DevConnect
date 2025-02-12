@@ -17,6 +17,16 @@ public class User {
 
     private String password;
 
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<UserRole> roles = new HashSet<>();
@@ -26,6 +36,10 @@ public class User {
         this.username = username;
         this.password = password;
         this.roles = roles;
+    }
+
+    public User() {
+
     }
 
     public Long getId() {
