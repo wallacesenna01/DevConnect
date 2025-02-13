@@ -29,6 +29,14 @@ public class UserProfile {
         this.profilePictureUrl = profilePictureUrl;
     }
 
+    public UserProfile(User user, String name, String bio, String technologies, String profilePictureUrl) {
+        this.user = user;
+        this.name = name;
+        this.bio = bio;
+        this.technologies = technologies;
+        this.profilePictureUrl = profilePictureUrl;
+    }
+
     public Long getId() {
         return id;
     }
@@ -77,5 +85,5 @@ public class UserProfile {
         this.profilePictureUrl = profilePictureUrl;
     }
 
-    
+
 }
