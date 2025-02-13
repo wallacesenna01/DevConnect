@@ -3,6 +3,7 @@ package com.br.wallaceartur.DevConnect.services;
 import com.br.wallaceartur.DevConnect.dtos.RegisterRequest;
 import com.br.wallaceartur.DevConnect.entities.User;
 import com.br.wallaceartur.DevConnect.resources.UserResource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
 
+    @Autowired
     private UserResource userResource;
 
     public UserService(UserResource userResource) {
@@ -24,7 +26,7 @@ public class UserService {
 
 
     public User registerNewUser(RegisterRequest registerRequest) {
-      if (userResource.existByUsername(registerRequest.getUsername())) {
+      if (userResource.existsByUsername(registerRequest.getUsername())) {
           throw new RuntimeException("Usuário ja existe");
       }
 

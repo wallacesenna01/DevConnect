@@ -4,11 +4,11 @@ public class LoginRequest {
 
     private String username;
 
-    private String passsword;
+    private String password;
 
-    public LoginRequest(String username, String passsword) {
+    public LoginRequest(String username, String password) {
         this.username = username;
-        this.passsword = passsword;
+        this.password = password;
     }
 
     public String getUsername() {
@@ -19,11 +19,13 @@ public class LoginRequest {
         this.username = username;
     }
 
-    public String getPasssword() {
-        return passsword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasssword(String passsword) {
-        this.passsword = passsword;
+    public void setPassword(String password) {
+        this.password = password;
     }
+
+
 }
