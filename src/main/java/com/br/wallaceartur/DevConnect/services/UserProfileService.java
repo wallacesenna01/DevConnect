@@ -2,50 +2,54 @@ package com.br.wallaceartur.DevConnect.services;
 
 import com.br.wallaceartur.DevConnect.entities.User;
 import com.br.wallaceartur.DevConnect.entities.UserProfile;
-import com.br.wallaceartur.DevConnect.resources.UserProfileResource;
-import com.br.wallaceartur.DevConnect.resources.UserResource;
+import com.br.wallaceartur.DevConnect.repositories.UserProfileRepository;
+import com.br.wallaceartur.DevConnect.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserProfileService {
 
     @Autowired
-    private UserProfileResource userProfileResource;
+    private UserProfileRepository userProfileRepository;
 
     @Autowired
-    private UserResource userResource;
+    private UserRepository userRepository;
 
 
-    public UserProfileService(UserProfileResource userProfileResource, UserResource userResource) {
-        this.userProfileResource = userProfileResource;
-        this.userResource = userResource;
+    public UserProfileService(UserProfileRepository userProfileRepository, UserRepository userRepository) {
+        this.userProfileRepository = userProfileRepository;
+        this.userRepository = userRepository;
     }
 
     //Criação ou atualização do perfil
 
-    public UserProfile createOrUpdateProfile(Long userId, String name, String bio, String technologies, String profilePictureUrl) {
-        User user = userResource.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuário nao encontrado"));
+    @Transactional
+    public UserProfile create(UserProfile userProfile) {
+        return userProfileRepository.save(userProfile);
+    }
 
-        UserProfile userProfile = userProfileResource.findByUser(user)
-                .orElse(new UserProfile(user, name, bio, technologies,profilePictureUrl));
 
+    public UserProfile getProfile(Long userId) {
+        return userProfileRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Perfil não encontrado para o Id: " + userId));
+    }
+
+    public UserProfile createOrUpDateProfile(Long userId, String name, String bio, String technologies, String profilePictureUrl) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuário nao encontrado" + userId));
+
+        UserProfile userProfile = userProfileRepository.findById(userId)
+                .orElse(new UserProfile());
+
+        userProfile.setUser(user);
         userProfile.setName(name);
         userProfile.setBio(bio);
         userProfile.setTechnologies(technologies);
         userProfile.setProfilePictureUrl(profilePictureUrl);
+        return userProfileRepository.save(userProfile);
 
-        return userProfileResource.save(userProfile);
-    }
-
-
-    // buscar perfil do usuário
-    public UserProfile getProfile(Long userid){
-        User user = userResource.findById(userid)
-                .orElseThrow(() -> new RuntimeException("Usuário nao encontrado"));
-
-        return userProfileResource.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("Pefil nao encontrado"));
     }
 }

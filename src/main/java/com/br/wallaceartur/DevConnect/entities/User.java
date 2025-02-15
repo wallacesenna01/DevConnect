@@ -20,9 +20,7 @@ public class User {
 
     private String email;
 
-    public String getEmail() {
-        return email;
-    }
+
 
     public void setEmail(String email) {
         this.email = email;
@@ -69,6 +67,13 @@ public class User {
 
     public Set<UserRole> getRoles() {
         return roles;
+    }
+
+    public void setName(String name) {
+    }
+
+    public String getEmail() {
+        return email;
     }
 
 }

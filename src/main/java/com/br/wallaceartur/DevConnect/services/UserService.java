@@ -2,9 +2,8 @@ package com.br.wallaceartur.DevConnect.services;
 
 import com.br.wallaceartur.DevConnect.dtos.RegisterRequest;
 import com.br.wallaceartur.DevConnect.entities.User;
-import com.br.wallaceartur.DevConnect.resources.UserResource;
+import com.br.wallaceartur.DevConnect.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,13 +11,13 @@ public class UserService {
 
 
     @Autowired
-    private UserResource userResource;
+    private UserRepository userRepository;
 
-    public UserService(UserResource userResource) {
-        this.userResource = userResource;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    private PasswordEncoder passwordEncoder;
+
 
   public User findByUsername(String user ) {
       return  findByUsername(user);
@@ -26,16 +25,16 @@ public class UserService {
 
 
     public User registerNewUser(RegisterRequest registerRequest) {
-      if (userResource.existsByUsername(registerRequest.getUsername())) {
+      if (userRepository.existsByUsername(registerRequest.getUsername())) {
           throw new RuntimeException("Usuário ja existe");
       }
 
       User user = new User();
 
       user.setUsername(registerRequest.getUsername());
-      user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+      user.setPassword(registerRequest.getPassword());
       user.setEmail(registerRequest.getEmail());
-      return userResource.save(user);
+      return userRepository.save(user);
 
     }
 }

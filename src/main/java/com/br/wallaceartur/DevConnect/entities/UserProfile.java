@@ -10,6 +10,7 @@ public class UserProfile {
     private Long id;
 
     @OneToOne
+    @MapsId
     @JoinColumn(name = "user_id")
     private User user;
 
